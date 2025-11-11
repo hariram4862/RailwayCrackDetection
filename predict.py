@@ -4,7 +4,7 @@ from scipy.fft import rfft
 from tensorflow.keras.models import load_model
 import time
 
-PORT = "COM5"  # your Arduino port
+PORT = "COM8"  # your Arduino port
 BAUD = 115200
 model = load_model("models/cnn_fft_model.keras")
 
@@ -21,6 +21,7 @@ print("🔌 Listening for Arduino...")
 
 while True:
     line = ser.readline().decode().strip()
+    print(line)
     if not line or "ARDUINO READY" in line:
         continue
     try:

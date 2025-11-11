@@ -17,26 +17,12 @@ class Reading(BaseModel):
     frequency: float
     amplitude: float
 
-rf = joblib.load("models/rf_model.joblib")
-cnn = load_model("models/cnn_fft_model.h5")
+cnn = load_model("models/cnn_fft_model.keras")
 
 @app.get("/")
 def home():
     return {"status": "API running"}
 
-@app.post("/predict")
-def predict(r: Reading):
-    X = np.array([[r.frequency, r.amplitude]])
-    probs = rf.predict_proba(X)[0]
-    label = int(rf.predict(X)[0])
-    return {
-        "label": ["defectless","minor","major"][label],
-        "probabilities": {
-            "defectless": float(probs[0]),
-            "minor": float(probs[1]),
-            "major": float(probs[2])
-        }
-    }
 
 @app.post("/predict_fft")
 def predict_fft(r: Reading):
